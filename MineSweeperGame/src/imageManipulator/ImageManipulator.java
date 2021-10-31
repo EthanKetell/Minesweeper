@@ -8,7 +8,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;  
 import java.io.File;  
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -16,36 +19,34 @@ import javax.swing.ImageIcon;
    
 public class ImageManipulator {
 	
-	private static ArrayList<String> names = new ArrayList<String>();
-	private static ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
-	private static ArrayList<String> iconNames = new ArrayList<String>();
-	private static ArrayList<Icon> icons = new ArrayList<Icon>();
+	private static HashMap<String, BufferedImage> images = new HashMap<>();
+	private static HashMap<String, Icon> icons = new HashMap<>();
 	
 	public static BufferedImage get(String target){
-		if(names.indexOf(target) != -1){
-			return images.get(names.indexOf(target));
+		if(images.containsKey(target)){
+			return images.get(target);
 		}
-		File f = new File("resources/"+target);
+		InputStream istream = ClassLoader.getSystemResourceAsStream(target);
 		try {
-			BufferedImage temp = ImageIO.read(f);
-			names.add(target);
-			images.add(temp);
+			BufferedImage temp = ImageIO.read(istream);
+			images.put(target, temp);
 			return temp;
 		} catch (IOException e) {
+			e.printStackTrace();
 			return null;
 		}	
 	}
 	
 	public static Icon getIcon(String target){
-		if(iconNames.indexOf(target) != -1){
-			return icons.get(iconNames.indexOf(target));
+		if(icons.containsKey(target)){
+			return icons.get(target);
 		}
 		try {
 			ImageIcon icon = new ImageIcon(target);
-			iconNames.add(target);
-			icons.add(icon);
+			icons.put(target, icon);
 			return icon;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

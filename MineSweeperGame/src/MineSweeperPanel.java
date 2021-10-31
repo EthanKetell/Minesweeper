@@ -1,23 +1,9 @@
-import imageManipulator.ImageManipulator;
-
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.awt.event.KeyListener;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.util.*;
-
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import java.util.ArrayList;
+import imageManipulator.ImageManipulator;
 
 
 
@@ -60,7 +46,7 @@ public class MineSweeperPanel extends JPanel implements MouseListener, MouseMoti
 			} else {
 				if(solvable || timesRemade == 100){
 					if(!solvable){
-						 JOptionPane.showMessageDialog(null, "Could not find solvable board,\ngame will require guessing","WARNING", -1);
+						 JOptionPane.showMessageDialog(null, "Could not find solvable board,\ngame will require guessing","WARNING", JOptionPane.PLAIN_MESSAGE);
 					}
 					activeSeconds = 0;
 					checking = false;
@@ -204,7 +190,7 @@ public class MineSweeperPanel extends JPanel implements MouseListener, MouseMoti
 		}
 		for(int mine = 0; mine < m; mine++){
 			Location temp = array.getRandomOccupiedLocation();
-			while(notHere.indexOf(temp) != -1 || array.get(temp).hasMine()){
+			while(notHere.contains(temp) || array.get(temp).hasMine()){
 				temp = array.getRandomOccupiedLocation();
 			}
 			array.get(temp).giveMine();
@@ -289,9 +275,7 @@ public class MineSweeperPanel extends JPanel implements MouseListener, MouseMoti
 	
 	@Override
 	public void repaint(){
-		if(checking)
-			return;
-		else
+		if(!checking)
 			super.repaint();
 	}
 	

@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * @author ewketell
- *
- */
-package imageManipulator;
